@@ -1,11 +1,13 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 const NAVY = '#0F2D52';
 
 export default function Home() {
   const [input, setInput] = useState('');
+  const router = useRouter();
 
   return (
     <div style={{ fontFamily: 'Inter, sans-serif', minHeight: '100vh' }}>
@@ -73,14 +75,16 @@ export default function Home() {
                 color: '#fff',
               }}
             />
-            <button style={{
-              padding: '14px 24px',
-              background: '#fff',
-              color: NAVY,
-              fontSize: 14, fontWeight: 500,
-              border: 'none', cursor: 'pointer',
-              whiteSpace: 'nowrap'
-            }}>
+            <button
+              onClick={() => input.trim() && router.push('/teknik')}
+              style={{
+                padding: '14px 24px',
+                background: '#fff',
+                color: NAVY,
+                fontSize: 14, fontWeight: 500,
+                border: 'none', cursor: 'pointer',
+                whiteSpace: 'nowrap'
+              }}>
               Skapa studieplan →
             </button>
           </div>
