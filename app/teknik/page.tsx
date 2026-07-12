@@ -113,7 +113,7 @@ export default function TeknikPage() {
         {/* Fortsätt-knapp */}
         <div style={{ maxWidth: 680, margin: '0 auto', display: 'flex', justifyContent: 'flex-end' }}>
           <button
-            onClick={() => vald !== null && router.push('/material')}
+            onClick={() => { if (vald !== null) router.push('/material'); }}
             style={{
               padding: '12px 28px',
               background: vald !== null ? NAVY : '#ccc',
