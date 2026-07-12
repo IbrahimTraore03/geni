@@ -76,7 +76,7 @@ export default function Home() {
               }}
             />
             <button
-              onClick={() => input.trim() && router.push('/teknik')}
+              onClick={() => input.trim() && router.push(`/teknik?amne=${encodeURIComponent(input.trim())}`)}
               style={{
                 padding: '14px 24px',
                 background: '#fff',

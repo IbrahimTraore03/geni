@@ -1,14 +1,18 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 
 const NAVY = '#0F2D52';
 
-export default function MaterialPage() {
+function MaterialContent() {
   const [valt, setValt] = useState<'upload' | 'ai' | null>(null);
   const [fil, setFil] = useState<File | null>(null);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const amne = searchParams.get('amne') || '';
+  const teknik = searchParams.get('teknik') || 'The Study Cycle';
 
   return (
     <div style={{ fontFamily: 'Inter, sans-serif', minHeight: '100vh' }}>
@@ -147,7 +151,7 @@ export default function MaterialPage() {
           <button
             onClick={() => {
               if (valt === 'ai' || (valt === 'upload' && fil)) {
-                router.push('/plan');
+                router.push(`/plan?amne=${encodeURIComponent(amne)}&teknik=${encodeURIComponent(teknik)}`);
               }
             }}
             style={{
@@ -164,5 +168,13 @@ export default function MaterialPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function MaterialPage() {
+  return (
+    <Suspense fallback={<div style={{ padding: 32, fontFamily: 'Inter, sans-serif', color: '#888' }}>Laddar...</div>}>
+      <MaterialContent />
+    </Suspense>
   );
 }

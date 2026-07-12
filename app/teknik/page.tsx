@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 
 const NAVY = '#0F2D52';
 
@@ -29,9 +30,11 @@ const tekniker = [
   },
 ];
 
-export default function TeknikPage() {
+function TeknikContent() {
   const [vald, setVald] = useState<number | null>(null);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const amne = searchParams.get('amne') || '';
 
   return (
     <div style={{ fontFamily: 'Inter, sans-serif', minHeight: '100vh' }}>
@@ -113,7 +116,7 @@ export default function TeknikPage() {
         {/* Fortsätt-knapp */}
         <div style={{ maxWidth: 680, margin: '0 auto', display: 'flex', justifyContent: 'flex-end' }}>
           <button
-            onClick={() => { if (vald !== null) router.push('/material'); }}
+            onClick={() => { if (vald !== null) router.push(`/material?amne=${encodeURIComponent(amne)}&teknik=${encodeURIComponent(tekniker[vald].title)}`); }}
             style={{
               padding: '12px 28px',
               background: vald !== null ? NAVY : '#ccc',
@@ -128,5 +131,13 @@ export default function TeknikPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function TeknikPage() {
+  return (
+    <Suspense fallback={<div style={{ padding: 32, fontFamily: 'Inter, sans-serif', color: '#888' }}>Laddar...</div>}>
+      <TeknikContent />
+    </Suspense>
   );
 }
